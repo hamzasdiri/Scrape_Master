@@ -20,20 +20,25 @@ const Home = () => {
 
             <h1 className="head-text">
               Unleash the Power of
-              <span className="text-primary"> ScrapeMaster</span>
+              <span className="text-primary"> PriceWise</span>
             </h1>
 
             <p className="mt-6">
               Powerful, self-serve product and growth analytics to help you
               convert, engage, and retain more.
             </p>
+
             <Searchbar />
           </div>
+
           <HeroCarousel />
         </div>
       </section>
-      <section>
-        <div className=""></div>
+
+      <section className="trending-section">
+        <h2 className="section-text">Trending</h2>
+
+        <div className="flex flex-wrap gap-x-8 gap-y-16"></div>
       </section>
     </>
   );
