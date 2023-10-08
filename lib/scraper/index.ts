@@ -37,7 +37,6 @@ export async function scrapeAmazonProduct(url: string) {
       $("#priceblock_dealprice"),
       $(".a-size-base.a-color-price")
     );
-    console.log(currentPrice);
     const outOfStock = $("#availability span")
       .text()
       .trim()
@@ -62,6 +61,10 @@ export async function scrapeAmazonProduct(url: string) {
       .replace(/[-%]/g, ""); //without the percentage
 
     const description = extractDescription($);
+
+    const category = $('input[name="productCategory"]').val();
+    console.log(category);
+
     //construct data object with scraped informations
     const data = {
       url,
@@ -72,14 +75,14 @@ export async function scrapeAmazonProduct(url: string) {
       originalPrice: Number(originalPrice) || Number(currentPrice),
       priceHistory: [],
       discountRate: Number(discountRate),
-      category: "category",
+      category: category,
       reviewsCount: 100,
       stars: 4.5,
       outOfStock: outOfStock,
       description,
       lowestPrice: Number(currentPrice) || Number(originalPrice),
       highestPrice: Number(originalPrice) || Number(currentPrice),
-      average: Number(currentPrice) || Number(originalPrice),
+      averagePrice: Number(currentPrice) || Number(originalPrice),
     };
     return data;
   } catch (error: any) {
