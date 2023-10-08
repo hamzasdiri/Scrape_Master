@@ -1,14 +1,26 @@
 "use client";
 
-import React, { Fragment, useState } from "react";
+import React, { FormEvent, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
-const Modal = () => {
+import { addUserEmailToProduct } from "@/lib/actions";
+
+interface Props {
+  productId: string;
+}
+const Modal = ({ productId }: Props) => {
   let [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState("");
 
-  const handelSubmit = async () => {};
+  const handelSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    await addUserEmailToProduct(productId, email);
+    setIsSubmitting(false);
+    setEmail("");
+    closeModal();
+  };
   const openModal = () => {
     setIsOpen(true);
   };
@@ -101,7 +113,7 @@ const Modal = () => {
                     />
                   </div>
                   <button type="submit" className="dialog-btn">
-                    Track
+                    {isSubmitting ? "Submitting..." : "Track"}
                   </button>
                 </form>
               </div>
