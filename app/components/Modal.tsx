@@ -5,6 +5,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 const Modal = () => {
   let [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handelSubmit = async () => {};
   const openModal = () => {
     setIsOpen(true);
   };
@@ -65,18 +69,40 @@ const Modal = () => {
                       onClick={closeModal}
                     />
                   </div>
-                  <h4>
+                  <h4 className="dialog-head_text">
                     We will send you updates about the product in your inbox!
                   </h4>
-                  <p>We provide timely alerts for you!</p>
+                  <p className="text-sm text-gray-600 mt-2">
+                    We provide timely alerts for you!
+                  </p>
                 </div>
-                <form className="flex flex-col mt-5">
+                <form className="flex flex-col mt-5" onSubmit={handelSubmit}>
                   <label
                     htmlFor="email"
                     className="text-sm font-medium text-gray-700"
                   >
                     Email Address
                   </label>
+                  <div className="dialog-input_container">
+                    <Image
+                      src="/assets/icons/mail.svg"
+                      alt="mail"
+                      width={18}
+                      height={18}
+                    />
+                    <input
+                      required
+                      type="email"
+                      id="email"
+                      placeholder="Enter your email"
+                      className="dialog-input"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <button type="submit" className="dialog-btn">
+                    Track
+                  </button>
                 </form>
               </div>
             </Transition.Child>
