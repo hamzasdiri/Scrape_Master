@@ -18,7 +18,8 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                         withEnv(["DOCKERHUB_USERNAME=${DOCKERHUB_USERNAME}"]) {
-                            sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+                            // For Windows use "start" instead of "nohup"
+                            bat 'echo %DOCKERHUB_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin'
                             docker.image("scrape-master:latest").push()
                         }
                     }
