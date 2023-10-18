@@ -1,15 +1,16 @@
 pipeline {
     agent any
+    environment {
+        DOCKERHUB_USERNAME = credentials('dockerhub').username
+    }
     stages {
         stage('Checkout') {
             steps {
-                // Récupérer le code source depuis GitHub
                 checkout scm
             }
         }
         stage('Build Docker Image') {
             steps {
-                // Construire l'image Docker
                 script {
                     docker.build("scrape-master:latest")
                 }
@@ -17,10 +18,12 @@ pipeline {
         }
         stage('Push to DockerHub') {
             steps {
-                // Poussez l'image Docker vers DockerHub
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        docker.image("scrape-master:latest").push()
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                            sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+                            docker.image("scrape-master:latest").push()
+                        }
                     }
                 }
             }
