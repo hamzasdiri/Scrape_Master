@@ -19,8 +19,9 @@ pipeline {
             steps {
                 // Poussez l'image Docker vers DockerHub
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        docker.image("scrape-master:latest").push()
+                    docker.withRegistry('','dockerhub') {
+                    docker_image.push("scrape-master")
+                    docker_image.push("latest")
                     }
                 }
             }
